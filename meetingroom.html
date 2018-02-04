@@ -1,0 +1,583 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">   
+<html xmlns="http://www.w3.org/1999/xhtml">   
+<head>   
+<!-- 禁止浏览器从本地缓存中调阅页面。-->  
+    <meta http-equiv="pragram" content="no-cache">  
+    <!--网页不保存在缓存中，每次访问都刷新页面。-->  
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">  
+    <!--同上面意思差不多，必须重新加载页面-->  
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅-->  
+    <meta http-equiv="expires" content="0">  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>会议室管理</title>   
+<link rel="stylesheet" href="css/mystyle.css" type="text/css" />
+<!-- 引入 jQuery -->
+<script src="scripts/jquery1.8.3.min.js" type="text/javascript"></script>
+<script src="scripts/easing.js"></script>
+<script>
+//等待dom元素加载完毕.
+	$(function(){
+		$(".treebox .level1>a").click(function(){
+			$(this).addClass('current')   //给当前元素添加"current"样式
+			.find('i').addClass('down')   //小箭头向下样式
+			.parent().next().slideDown('slow','easeOutQuad')  //下一个元素显示
+			.parent().siblings().children('a').removeClass('current')//父元素的兄弟元素的子元素去除"current"样式
+			.find('i').removeClass('down').parent().next().slideUp('slow','easeOutQuad');//隐藏
+			 return false; //阻止默认时间
+		});
+	})
+</script>
+<style type="text/css">   
+* {   
+    margin:0;   
+    padding:0;   
+}   
+html,   
+body,   
+#box {   
+height:100%;   
+    font:small/1.5 "宋体", serif;   
+}   
+body {   
+    text-align:center;   
+}   
+#box {   
+    text-align:left;   
+    background:#666;   
+    display:table;   
+    width:90%;   
+    margin:0 auto;   
+    position:relative;   
+}   
+#box > div {   
+    display:table-row;   
+}   
+#header{
+    background:white;   
+    height:100px;   
+    vertical-align:bottom;
+
+}   
+#footer {   
+    background:#EAEAEA;   
+    height:50px;   
+    vertical-align:bottom;
+    width:100%;	
+}   
+#main {   
+    background:white;   
+}   
+#main #wrap {   
+    display:table-cell;   
+    background:#EAEAEA;
+    vertical-align:middle;
+    border-bottom:1px solid rgba(200,200,200,0.5);
+	border-top:1px solid rgba(200,200,200,0.5);		
+}   
+#text {   
+    text-align:center;   
+
+}
+
+#left{
+    width:250px;
+	height:100%;
+    float:left;
+	background:#EAEAEA;
+	border-right:1px solid rgba(200,200,200,0.5);
+}  
+#right{
+      width:100%;
+	  height:100%;
+	  background:white;
+	  border-right:1px solid rgba(200,200,200,0.5);
+	  
+}
+#logo{
+     float:left;
+
+} 
+#menu{
+   padding-top:50px;
+   
+   padding-right:200px;
+   
+} 
+#path{
+    padding-top:5px;
+    align:center;
+	height:25px;
+}
+font{
+  font-family: "Microsoft YaHei";
+  font-size:150%;
+}
+.searchcondition{
+      
+	  width:80%;
+	  margin-left:200px;
+	  height:40px;
+	  background:white;
+	  margin-top:10px;
+	  text-align:right;
+	  
+}
+.functioncondition{
+      
+	  width:80%;
+	  margin-left:200px;
+	  height:40px;
+	  background:white;
+	  margin-top:10px;
+	  text-align:right;
+	  
+}
+.input{
+          border: 1px solid #ccc; 
+          padding: 7px 0px;
+          border-radius: 3px; /*css3属性IE不支持*/
+          padding-left:5px; 
+            }
+.input:focus{
+                    border-color: #66afe9;
+                    outline: 0;
+                    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+                    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+            }			
+.searchbutton
+{
+	width:110px;
+	height:35px;
+	line-height:18px;
+	font-size:18px;
+	color:#fff;
+	padding-left:10px;
+	background:url("images/button/bg31.jpg") no-repeat left top;
+	padding-bottom:4px;
+	border: 1px solid #ccc; 
+    border-radius: 3px; /*css3属性IE不支持*/
+   
+}
+.resetbutton
+{   
+    width:100px;
+	height:35px;
+	line-height:18px;
+	font-size:18px;
+	padding-left:10px;
+	background:url("images/button/reset.gif") no-repeat 8px center;
+	background-color:#f9f9f9;
+	padding-bottom:4px;
+	border: 1px solid #ccc; 
+    border-radius: 3px; /*css3属性IE不支持*/
+     
+}
+.list_hy{
+	background:#FFF;
+	margin-top:0px;
+	font-size:12px;
+	border-left:1px solid #DEDEDE;
+	border-top:1px solid #DEDEDE;
+	width:70%;
+	margin-right:100px;
+	margin-left:300px
+}
+.list_hy th , .list_hy td{
+	height:20px;
+	line-height:48px;
+	font-size:14px;
+	color:#434343;
+	font-weight:bold;
+	padding-left:10px;
+	border-right:1px solid #DEDEDE;
+	border-bottom:1px solid #DEDEDE;
+}
+.list_hy th{
+	border-bottom:2px solid #DEDEDE;
+}
+.list_hy th div{
+	width:100%;
+	height:48px;
+	position:relative;
+}
+.list_hy th div a{
+	display:block;
+	width:8px;
+	height:6px;
+	background:url(../images/icon6.png) no-repeat;
+	position:absolute;
+	right:10px;
+	top:17px;
+}
+.list_hy th div a.down{
+	background:url(../images/icon6_1.png) no-repeat;
+	top:26px;
+}
+.list_hy td{
+	font-weight:normal;
+	color:#656565;
+	height:20px;
+	line-height:40px;
+	font-size:12px;
+}
+.list_hy tr:hover td{
+	background:#F5F5F5;
+}
+.list_hy .xz{
+	width:50px;
+	text-align:center;
+	padding:0px;
+}
+.list_hy .xz input , .r_foot_m span input{
+	width:16px;
+	height:16px;
+	border:1px solid #DEDEDE;
+	background:none;
+	vertical-align:middle;
+}
+.list_hy .zt{
+	width:65px;
+}
+.r_foot_m{
+	width:70%;
+	height:40px;
+	line-height:40px;
+	position:relative;
+}
+.r_foot_m .page{
+	height:30px;
+	position:absolute;
+	right:20px;
+	top:5px;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	background:#FFF;
+	border:1px solid #DEDEDE;
+}
+.r_foot_m .page a{
+	display:inline-block;
+	*display:inline;
+	zoom:1;
+	width:42px;
+	height:30px;
+	text-align:center;
+	font-size:14px;
+	border-right:1px solid #DEDEDE;
+	line-height:30px;
+	vertical-align:top;
+	padding:0px;
+	margin:0px;
+}
+.r_foot_m .page a.now{
+	color:#FFF;
+	background:#3D89CB;
+}
+.r_foot_m .page .prev{
+	margin-left:6px;
+}
+.r_foot_m .page .next{
+	margin-right:6px;
+	border:0px;
+}
+.r_foot_m a img{
+	width:9px;
+	height:14px;
+	vertical-align:top;
+	margin-top:9px;
+}
+
+/* button 
+---------------------------------------------- */
+.button {
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+/* white */
+.white {
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+}
+.white:hover {
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+	background: -moz-linear-gradient(top,  #fff,  #dcdcdc);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+}
+
+.white:active {
+	color: #999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+	background: -moz-linear-gradient(top,  #ededed,  #fff);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
+}
+/*
+			author :
+	*/
+
+	/*简单粗暴重置默认样式===============================*/
+		*{ margin: 0; padding: 0; }
+		img{border:0;}
+        ul,li{list-style-type:none;}
+		a {color:#00007F;text-decoration:none;}
+		a:hover {color:#bd0a01;text-decoration:underline;}
+		.treebox{ width: 250px; margin: 0 auto; background-color:#ededed;}
+		.menu{ overflow: hidden; border-color: #ddd; border-style: solid ; border-width: 0 1px 1px ; }
+		/*第一层*/
+		.menu li.level1>a{ 
+			display:block;
+			height: 45px;
+			line-height: 45px;
+			color: #000000;
+			padding-left: 50px;
+			border-bottom: 0px solid #000; 
+			font-size: 16px;
+			font-family: "Microsoft YaHei";
+			font-weight:bold;
+			position: relative;
+		 }
+		 .menu li.level1 a:hover{ text-decoration: none;background-color:#DCDCDC;   }
+		 .menu li.level1 a.current{ background: #DCDCDC; }
+
+		/*============修饰图标*/
+		 .ico{ width: 20px; height: 20px; display:block;   position: absolute; left: 20px; top: 10px; background-repeat: no-repeat; background-image: url(images/ico1.png); }
+
+		 /*============小箭头*/
+		 .level1 i{ width: 20px; height: 10px; background-image:url(images/arrow.png); background-repeat: no-repeat; display: block; position: absolute; right: 20px; top: 20px; }
+		.level1 i.down{ background-position: 0 -10px; }
+
+		 .ico1{ background-position: 0 0; }
+		 .ico2{ background-position: 0 -20px; }
+		 .ico3{ background-position: 0 -40px; }
+		 .ico4{ background-position: 0 -60px; }
+                 .ico5{ background-position: 0 -80px; }
+
+		 /*第二层*/
+		 .menu li ul{ overflow: hidden; }
+		 .menu li ul.level2{ display: none;background: #C0C0C0; }
+		 .menu li ul.level2 li a{
+		 	display: block;
+			height: 45px;
+			line-height: 45px;
+			color: #000000;
+			text-indent: 60px;
+			/*border-bottom: 1px solid #ddd; */
+			font-size: 14px;
+			font-family: "Microsoft YaHei";
+		 }
+
+	</style>
+
+
+   
+ 
+
+</head>   
+<body>   
+<div id="box">   
+  <div id="header">
+      <div id="logo">
+	     <img src="images/logo.jpg" alt="samsung SDS" height="100px" width="250px" >
+	  </div>
+	  <div id="menu"  >
+	    
+		<table  border="0" cellpadding="0" cellspacing="0" style="width:50%;margin:auto">
+		  <tr>
+			<th align="right"><font>工时管理</font></th>
+			<th align="right"><font>考勤管理</font></th>
+			<th align="right"><font>会议室管理</font></th>
+			<th align="right"><font>系统设置</font></th>
+			<th align="right"><font>流程管理</font></th>
+		  </tr>
+  
+       </table>
+		
+	  </div>
+	  
+	  
+  
+  </div>   
+  <div id="main">   
+    <div id="wrap">  
+    
+       <div id="left">   
+          
+         <div style=' height:50px;line-height:50px;overflow:hidden;border-top:3px solid blue;text-align:center;background:#C0C0C0;' >
+		   <font>会议室</font>
+		 </div>		 
+         
+          <div class="treebox">
+			<ul class="menu">
+				<li class="level1">
+					<a href="#none"><em class="ico ico1"></em>会议室管理<i class="down"></i></a>
+					<ul class="level2">
+						<li><a href="javascript:;">会议室预订</a></li>
+						<li><a href="javascript:;">会议室预订</a></li>
+						<li><a href="javascript:;">会议室预订</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+					</ul>
+				</li>
+				<li class="level1">
+					<a href="#none"><em class="ico ico2"></em>会议室管理<i></i></a>
+					<ul class="level2">
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+					</ul>
+				</li>
+				<li class="level1">
+					<a href="#none"><em class="ico ico3"></em>会议室管理<i></i></a>
+					<ul class="level2">
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+						<li><a href="javascript:;">会议室列表</a></li>
+					</ul>
+				</li>
+			</ul>
+	</div>
+
+		 
+        </div>		
+       <div id="right">   
+         
+		 <div class="menupath" style="height:50px;line-height:50px;overflow:hidden;border-top:3px solid blue;text-align:left;" >
+		   <font style="font-size:130%">>>会议室管理>>会议室预订>>会议室列表</font>
+		 </div>	
+		  
+		  <hr style="margin-top:1px;margin-right:100px;margin-left:300px;height:0px;border:none;border-top:2px solid #c0c0c0;" />
+		     <div class="searchcondition">
+			     
+			     <div style="float:left;margin-left:150px;">
+				 Number:  <input  type="text" class="input">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 Name:    <input   type="text" class="input">
+				 
+				 </div>
+				 <span class="button white">搜索</span>
+				 <span class="button white">重置</span> 
+			 
+				
+			    
+             </div>	 
+			 		 
+			  
+		  <hr style="margin-top:10px;margin-right:100px;margin-left:300px;height:1px;border:none;border-top:2px solid #c0c0c0;" />
+		  <div class="functioncondition">
+			     <button class="button white">Excel 上传</button>
+			     <button class="button white">Excel 下载</button>
+			     <span class="button white">增加</span> 
+				 <span class="button white">修改</span> 
+				 <span class="button white">删除</span> 
+             </div>	
+			 		 
+			  
+		  <table cellpadding="0" cellspacing="0" class="list_hy">
+              <tr>
+                <th class="xz" scope="col">选择</th>
+                <th scope="col"><div>会议名称/号码<a href="" class="up">&nbsp;</a><a href="" class="down">&nbsp;</a></div></th>
+                <th class="zt" scope="col"><div>状态<a href="" class="up">&nbsp;</a><a href="" class="down">&nbsp;</a></div></th>
+                <th scope="col">开始时间</th>
+                <th scope="col">时长</th>
+                <th scope="col">与会终端数</th>
+                <th scope="col">会议类型</th>
+                <th scope="col">会议容量</th>
+              </tr>
+              <tr>
+                <td class="xz"><input name="" type="checkbox" value=""></td>
+                <td>ip64/1</td>
+                <td class="zt">-</td>
+                <td>2012-10-11 13:28</td>
+                <td>永久会议</td>
+                <td>-</td>
+                <td>主会议</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td class="xz"><input name="" type="checkbox" value=""></td>
+                <td>ip64/1</td>
+                <td class="zt">-</td>
+                <td>2012-10-11 13:28</td>
+                <td>永久会议</td>
+                <td>-</td>
+                <td>主会议</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td class="xz"><input name="" type="checkbox" value=""></td>
+                <td>ip64/1</td>
+                <td class="zt">-</td>
+                <td>2012-10-11 13:28</td>
+                <td>永久会议</td>
+                <td>-</td>
+                <td>主会议</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td class="xz"><input name="" type="checkbox" value=""></td>
+                <td>ip64/1</td>
+                <td class="zt">-</td>
+                <td>2012-10-11 13:28</td>
+                <td>永久会议</td>
+                <td>-</td>
+                <td>主会议</td>
+                <td>-</td>
+              </tr>
+             
+            </table>
+		      <div class="r_foot">
+            	<div class="r_foot_m">
+            	
+                
+                <!--分页-->
+                <div class="page">
+                	<a href="" class="prev"><img src="Assets/images/icon7.png" alt=""/></a>
+                    <a class="">1</a>
+                    <a href="">2</a>
+                    <a href="">3</a>
+                    <a href="">4</a>
+                    <a href="">5</a>
+                    <a href="">6</a>
+                    <a href="" class="next"><img src="Assets/images/icon8.png" alt=""/></a>
+                </div>
+                <!--分页-->
+                </div>
+            </div>
+		  
+       </div>
+     	
+        </div>   
+  </div>   
+  <div id="footer">
+    SAMSUNG SDS 
+  </div>   
+</div>   
+</body>   
+</html> 
