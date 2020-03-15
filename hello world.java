@@ -6,6 +6,5 @@ jfkdjfkdjf
 提交s
 看git fetch
 查看fetch功能2
-我开发的代码，准备提交。
 
 
