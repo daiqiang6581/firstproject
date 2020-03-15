@@ -12,3 +12,4 @@ dssds
 dfjdkfj
 dfdfdfdfd
 看同步和Fetch
+看同步和Fetch2
